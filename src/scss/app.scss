@@ -100,7 +100,9 @@ hr.itemHR
     width: 5em !important;
     margin-top:10px;
 }
-
+.result-item  p {
+    font-size: 15px !important;
+}
 .ais-Highlight
 {
     font-weight:700 !important;
@@ -119,4 +121,5 @@ hr.itemHR
 
 .content.noresult button {
     margin-top: 2em;
+    margin-bottom:2em;
 }

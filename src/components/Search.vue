@@ -1,5 +1,6 @@
 <template>
-  <div class="mini-search">
+
+   <div class="mini-search">
     <ais-instant-search
       :search-client="searchClient"
       index-name="wp_prime_searchable_posts"
@@ -25,7 +26,9 @@
             
             <ul v-for="(index,x) in indices" :key="x" class="search-results">
               <span v-if="index.hits.length" >
-                <p class="resultTitle">
+                <p class="resultTitle"
+                 @click="log(index.hits)"
+                >
                   Results from {{index.label}}
                 </p>
                 <hr class="resultTitleHR"> 
@@ -54,10 +57,10 @@
                         <h4>
                           <ais-highlight attribute="post_title" :hit="hit"/>
                           <br>
-                          <small>{{hit.post_date_formatted}}</small>
+                          <small>{{hit.content}}</small>
                           <br>
                         </h4>
-                        <h6>{{hit.post_type_label}}</h6>
+                      
                         <p v-html="hit.post_excerpt"></p>
                       </div>
                     </li>
@@ -65,9 +68,10 @@
                   </ul>
                 </li>
               </span>
+              <!--[BEGIN-ADD][Bojana 5/8/2019] No Result -->
               <span v-if="!index.hits.length">
                   <p class="resultTitle">
-                    No Results Found
+                    No Results Found from {{index.label}}
                   </p>
                   <hr class="resultTitleHR">
                   <div class="content noresult" > 
@@ -81,6 +85,7 @@
                   </div>
                       
               </span>
+              <!--[BEGIN-ADD][Bojana 5/8/2019] No Result -->
               
             </ul>
             
@@ -124,7 +129,13 @@ export default {
         }
       }
       return true;
-    }
+    },
+
+    log: function (e) {
+     
+      console.log(e);
+    } 
+  
   }
 };
 </script>
