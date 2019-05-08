@@ -49,8 +49,9 @@ button.ais-SearchBox-submit {
 }
 /* Styling for Result*/
 .resultHits {
-    border: 1.5px solid $borderColor;
+    border: 1.5px solid #8E8E8E;
     margin-top: 1.5em;
+    min-height: 50vh !important;
 }
 .resultTitle {
     font-weight: 700;
@@ -98,4 +99,24 @@ hr.itemHR
 .result-item img.profileImg {
     width: 5em !important;
     margin-top:10px;
+}
+
+.ais-Highlight
+{
+    font-weight:700 !important;
+    font-size:15px !important;
+}
+
+.empty.profileImg
+{
+    filter:grayscale(100%);
+}
+
+.content.noresult
+{
+    padding-left:$titleLeftPadding;
+}
+
+.content.noresult button {
+    margin-top: 2em;
 }

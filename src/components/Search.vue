@@ -20,14 +20,16 @@
             autofocus
             show-loading-indicator
           >
-          <div v-if="currentRefinement" class="resultHits">
-            <p class="resultTitle">
-              Results from History
-            </p>
-            <hr class="resultTitleHR">
+          <div v-if="currentRefinement" class="resultHits" >
+            
+            
             <ul v-for="(index,x) in indices" :key="x" class="search-results">
-              <span v-if="index.hits.length">
-                
+              <span v-if="index.hits.length" >
+                <p class="resultTitle">
+                  Results from {{index.label}}
+                </p>
+                <hr class="resultTitleHR"> 
+ 
                 <h3 class="subTitle">{{index.label}}</h3>
                 <li class="result-items">
                   <ul>
@@ -45,9 +47,10 @@
                       <div v-if="hit.images.thumbnail && hit.images.thumbnail.url" class="photo" >
                         <img :src="hit.images.thumbnail.url" alt class="profileImg">
                       </div>
-                      <div
-                        :class="{'content': hit.images.thumbnail}"
-                      >
+                      <div v-if="!hit.images.thumbnail || !hit.images.thumbnail.url" class="photo" >
+                        <img src="https://www.deedsalone.com/wp-content/uploads/2019/03/empty-face-athlete.svg" alt class="profileImg empty">
+                      </div>                     
+                      <div class="content">
                         <h4>
                           <ais-highlight attribute="post_title" :hit="hit"/>
                           <br>
@@ -62,7 +65,27 @@
                   </ul>
                 </li>
               </span>
+              <span v-if="!index.hits.length">
+                  <p class="resultTitle">
+                    No Results Found
+                  </p>
+                  <hr class="resultTitleHR">
+                  <div class="content noresult" > 
+                    <h4>
+                      <small>No results were found for your search. Would you lkie to retry your search across all of CSSH?</small>
+                      <br>
+                    </h4>
+                    <button>
+                      Search All of CSSH
+                    </button>
+                  </div>
+                      
+              </span>
+              
             </ul>
+            
+              
+        
           </div>
         </div>
       </ais-autocomplete>
@@ -81,7 +104,8 @@ export default {
         "XAJ79GTSZV",
         "f62cf6274acbcdf43e219996a7966f06"
       ),
-      query: ""
+      query: "",
+      FoundResult: "0",
     };
   },
   methods: {
