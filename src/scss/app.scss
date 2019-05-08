@@ -7,6 +7,7 @@ $borderColor: #8E8E8E;
 $titleLeftPadding: 18px;
 $subtitleTopPadding:5px;
 $subtitleBottomPadding:5px;
+$resultRightPadding:20px;
 
 /* Styling for SearchBox*/
 .ais-Autocomplete input{
@@ -28,7 +29,7 @@ button.ais-SearchBox-reset {
 }
 svg.ais-SearchBox-submitIcon path {
     stroke: $searchIconColor;
-    stroke-width: 4px;
+    stroke-width: 3.5px;
     -webkit-text-stroke-width: 4px !important;
     transform: scale(0.7);
     transform: translate(7px,7px) scale(0.7);
@@ -49,7 +50,7 @@ button.ais-SearchBox-submit {
 /* Styling for Result*/
 .resultHits {
     border: 1.5px solid $borderColor;
-    margin-top: 0.7em;
+    margin-top: 1.5em;
 }
 .resultTitle {
     font-weight: 700;
@@ -68,9 +69,9 @@ hr.resultTitleHR {
 }
 hr.itemHR
 {
-    margin: 10px 0!important;
+    margin: $titleLeftPadding 0!important;
+    margin-right:$resultRightPadding !important;
     border: 1px solid $borderColor;
-
 }
 .subTitle{
     padding-left:$titleLeftPadding !important;
