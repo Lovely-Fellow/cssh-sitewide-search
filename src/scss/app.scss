@@ -86,6 +86,16 @@ hr.itemHR
 .result-items ul{
     padding-left:$titleLeftPadding;
 }
-img.profileImg {
+
+.result-item.row {
+    display: flex;
+    margin:0;
+}
+.result-item .content {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.result-item img.profileImg {
     width: 5em !important;
+    margin-top:10px;
 }

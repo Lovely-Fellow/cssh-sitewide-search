@@ -42,11 +42,11 @@
                       This would be a good place to put 'sub-components' for each type of result - e.g. post, faculty, spotlight, etc.
                       -->
 
-                      <div v-if="hit.images.thumbnail && hit.images.thumbnail.url" class="col-xs-12 col-sm-1">
+                      <div v-if="hit.images.thumbnail && hit.images.thumbnail.url" class="photo" >
                         <img :src="hit.images.thumbnail.url" alt class="profileImg">
                       </div>
                       <div
-                        :class="{'col-sm-11': hit.images.thumbnail, 'col-sm-12': !hit.images.thumbnail}"
+                        :class="{'content': hit.images.thumbnail}"
                       >
                         <h4>
                           <ais-highlight attribute="post_title" :hit="hit"/>
