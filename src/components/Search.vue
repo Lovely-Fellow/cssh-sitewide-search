@@ -6,6 +6,9 @@
       label="Prime"
     >
       <ais-configure :hitsPerPage="10" :restrictSearchableAttributes="['post_title']"/>
+      <!--[BEGIN-ADD][Bojana 5/8/2019] Add searchBox -->
+      <ais-search-box autofocus placeholder="Search . . ." />
+      <!--[BEGIN-ADD] [Bojana 5/8/2019] Add searchBox-->
       <ais-autocomplete :indices="[{ value:'wp_history_posts_post', label: 'History' }]">
         <div slot-scope="{ currentRefinement, indices, refine }">
           <input
@@ -15,11 +18,17 @@
             placeholder="Search..."
             @input="refine($event.currentTarget.value)"
             autofocus
+            show-loading-indicator
           >
-          <div v-if="currentRefinement">
+          <div v-if="currentRefinement" class="resultHits">
+            <p class="resultTitle">
+              Results from History
+            </p>
+            <hr class="resultTitleHR">
             <ul v-for="(index,x) in indices" :key="x" class="search-results">
               <span v-if="index.hits.length">
-                <h3>{{index.label}}</h3>
+                
+                <h3 class="subTitle">{{index.label}}</h3>
                 <li class="result-items">
                   <ul>
                     <li
@@ -33,11 +42,11 @@
                       This would be a good place to put 'sub-components' for each type of result - e.g. post, faculty, spotlight, etc.
                       -->
 
-                      <div v-if="hit.images.thumbnail && hit.images.thumbnail.url" class="col-xs-2">
-                        <img :src="hit.images.thumbnail.url" alt>
+                      <div v-if="hit.images.thumbnail && hit.images.thumbnail.url" class="col-xs-12 col-sm-1">
+                        <img :src="hit.images.thumbnail.url" alt class="profileImg">
                       </div>
                       <div
-                        :class="{'col-sm-10': hit.images.thumbnail, 'col-sm-12': !hit.images.thumbnail}"
+                        :class="{'col-sm-11': hit.images.thumbnail, 'col-sm-12': !hit.images.thumbnail}"
                       >
                         <h4>
                           <ais-highlight attribute="post_title" :hit="hit"/>
@@ -49,6 +58,7 @@
                         <p v-html="hit.post_excerpt"></p>
                       </div>
                     </li>
+                    <hr class="itemHR">
                   </ul>
                 </li>
               </span>
