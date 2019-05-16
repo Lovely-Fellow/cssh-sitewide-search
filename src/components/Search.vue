@@ -110,13 +110,30 @@ export default {
     log: function (e) {
      
       console.log(e);
+    },
+  
+    mounted: function() {
+      var max_detail_len = 240;
+      $(".detail").text(function(i, text) {
+
+        if (text.length >= max_detail_len) {
+            text = text.substring(0, max_detail_len);
+            var lastIndex = text.lastIndexOf(" ");
+            text = text.substring(0, lastIndex) + '...';
+        }
+
+        $(this).text(text);
+
+    });
     }
-  
-  
   }
 };
 </script>
 <style lang="scss">
+body{
+  /*"Helvetica Neue", Helvetica, Arial, sans-serif*/
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 .search-results {
     list-style: none;
     margin: 0;
@@ -132,17 +149,28 @@ export default {
     margin-bottom: 1em;
   }
   $searchboxFontSize: 3em;
-  $searchIconColor:#9E9E9E;
+  $searchIconColor:black;
   $headerColor: #404040;
   $sub_titleColor:#505050;
   $textColor:#9E9E9E;
-  $borderColor: #8E8E8E;
+  $borderColor: black;
+  $borderWidth: 3px;
   $titleLeftPadding: 18px;
   $sub_titleTopPadding:5px;
   $sub_titleBottomPadding:5px;
   $resultRightPadding:20px;
+  $highlightBackcolor: rgb(255,125,125);
+  $paddingfirstresult: 10px;
+  $paddingcontent: $titleLeftPadding;
   
   /* Styling for SearchBox*/
+  .modal-dialog
+  {
+    max-width:1085px !important;
+  }
+  input.ais-SearchBox-input:focus {
+    outline-color: black;
+  }
   .ais-Autocomplete input{
       display:none !important;
   }
@@ -150,6 +178,7 @@ export default {
       width: 100%;
       font-size: $searchboxFontSize;
       padding-left:$titleLeftPadding;
+      font-weight:bold;
       
   }
   svg.ais-SearchBox-submitIcon {
@@ -171,6 +200,7 @@ export default {
       display: flex;
   }
   button.ais-SearchBox-submit {
+      /*background: $searchIconColor;*/
       background: transparent;
       border: none;
       margin-left: -5em;
@@ -182,7 +212,7 @@ export default {
   }
   /* Styling for Result*/
   .result_hits {
-      border: 1.5px solid #8E8E8E;
+      border: $borderWidth solid $borderColor;
       margin-top: 1.5em;
       min-height: 50vh !important;
   }
@@ -219,6 +249,7 @@ export default {
   }
   .result-items ul{
       padding-left:$titleLeftPadding;
+      padding-top:$paddingfirstresult;
   }
   
   .result-item.row {
@@ -240,6 +271,7 @@ export default {
   {
       font-weight:700 !important;
       font-size:15px !important;
+      margin-bottom:20px;
   }
   
   .empty.profileImg
@@ -255,5 +287,16 @@ export default {
   .content.noresult button {
       margin-top: 2em;
       margin-bottom:2em;
+  }
+
+  /* Padding between content title and detail*/
+  .content .detail
+  {
+    padding-top:$paddingcontent;
+  }
+   /* Highlighted mark*/
+  mark
+  {
+    background:$highlightBackcolor !important;
   }
 </style>
