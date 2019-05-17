@@ -1,16 +1,15 @@
 <template>
-
-   <div class="mini-search">
+  <div class="mini-search">
     <ais-instant-search
       :search-client="searchClient"
-      index-name="wp_prime_searchable_posts"
-      label="Prime"
+      :index-name="primaryIndex.value"
+      :label="primaryIndex.label"
     >
       <ais-configure :hitsPerPage="10" :restrictSearchableAttributes="['post_title']"/>
-     
-      <ais-search-box autofocus placeholder="Search . . ." />
-    
-      <ais-autocomplete :indices="[{ value:'wp_history_posts_post', label: 'History' }]">
+
+      <ais-search-box autofocus placeholder="Search . . ."/>
+
+      <ais-autocomplete :indices="additionalIndicies">
         <div slot-scope="{ currentRefinement, indices, refine }">
           <input
             class="form-control input-lg"
@@ -21,19 +20,19 @@
             autofocus
             show-loading-indicator
           >
-          <div v-if="currentRefinement" class="result_hits" >
-            
-            
+          <div v-if="currentRefinement" class="result_hits">
             <ul v-for="(index,x) in indices" :key="x" class="search-results">
-              <span v-if="index.hits.length" >
-                <p class="result_title"
-                 @click="log(index.hits)"
-                >
-                  Results from {{index.label}}
-                </p>
-                <hr class="result_title_hr"> 
- 
-                <h3 class="sub_title">{{index.label}}</h3>
+              <span v-if="index.hits.length">
+                <!-- <pre>{{index}}</pre> -->
+                <p
+                  v-if="index.label && index.label !== 'primary'"
+                  class="result_title"
+                  @click="log(index.hits)"
+                >Results from {{index.label}}</p>
+                <p v-else class="result_title">Results from this site</p>
+                <hr class="result_title_hr">
+
+                <!-- <h3 class="sub_title">{{index.label}}</h3> -->
                 <li class="result-items">
                   <ul>
                     <li
@@ -46,8 +45,8 @@
                       TODO
                       This would be a good place to put 'sub-components' for each type of result - e.g. post, faculty, spotlight, etc.
                       -->
-                      <Profiles  v-if="index.label=='primary'" v-bind:hit="hit"></Profiles>
-                      <History  v-if="index.label=='History'" v-bind:hit="hit"></History>
+                      <Profiles v-bind:hit="hit"></Profiles>
+                  
 
                     </li>
                     <hr class="item_hr">
@@ -58,10 +57,7 @@
               <span v-if="!index.hits.length">
                   <Noresult v-bind:index="index"></Noresult>                  
               </span>
-             
-              
             </ul>
-           
           </div>
         </div>
       </ais-autocomplete>
@@ -72,21 +68,17 @@
 <script>
 import algoliasearch from "algoliasearch/lite";
 import Profiles from './Profiles';
-import History from './History';
 import Noresult from './Noresult';
-
+import { config } from "@/algolia.config.js";
 export default {
-  components: { Profiles, History, Noresult},
+  components: { Profiles, Noresult},
+  name: "AlgoliaSearchUI",
+  props: ["primaryIndex", "additionalIndicies"],
   data() {
     return {
-      searchClient: algoliasearch(
-        "XAJ79GTSZV",
-        "f62cf6274acbcdf43e219996a7966f06"
-      ),
+      searchClient: algoliasearch(config.appId, config.key),
       query: "",
-      FoundResult: "0",
-      greeting: 'Hello',
-
+      FoundResult: "0"
     };
   },
   methods: {
@@ -107,25 +99,15 @@ export default {
       return true;
     },
 
-    log: function (e) {
-     
+    log: function(e) {
       console.log(e);
     },
-  
-    mounted: function() {
-      var max_detail_len = 240;
-      $(".detail").text(function(i, text) {
-
-        if (text.length >= max_detail_len) {
-            text = text.substring(0, max_detail_len);
-            var lastIndex = text.lastIndexOf(" ");
-            text = text.substring(0, lastIndex) + '...';
-        }
-
-        $(this).text(text);
-
-    });
-    }
+    
+  },
+  mounted: function() {
+    
+      console.log("TEST");
+ 
   }
 };
 </script>
@@ -159,7 +141,8 @@ body{
   $sub_titleTopPadding:5px;
   $sub_titleBottomPadding:5px;
   $resultRightPadding:20px;
-  $highlightBackcolor: rgb(255,125,125);
+  $highlightcolor:rgb(255,125,125);
+  $highlightBackcolor: rgb(105,205,205);
   $paddingfirstresult: 10px;
   $paddingcontent: $titleLeftPadding;
   
@@ -274,19 +257,20 @@ body{
       margin-bottom:20px;
   }
   
-  .empty.profileImg
-  {
-      filter:grayscale(100%);
-  }
+
   
   .content.noresult
   {
+      padding-top: $paddingfirstresult;
       padding-left:$titleLeftPadding;
   }
   
   .content.noresult button {
-      margin-top: 2em;
-      margin-bottom:2em;
+      /*margin-top: 0;
+      margin-bottom:2em;*/
+      background: red;
+      color:white;
+      font-size:20px;
   }
 
   /* Padding between content title and detail*/
@@ -298,5 +282,6 @@ body{
   mark
   {
     background:$highlightBackcolor !important;
+    color:$highlightcolor !important;
   }
 </style>
