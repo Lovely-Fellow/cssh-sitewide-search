@@ -8,9 +8,8 @@
   </div>                     
   <div class="content">
     <h4>
-      {{hit.post_type}}:  
+     {{hit.post_type}}:        
       <ais-highlight attribute="post_title" :hit="hit"/>
-    
       <div class="detail">
       <small v-trim>{{hit.content}}</small>
       </div>
