@@ -41,7 +41,7 @@ export default {
         {
             resultString = str.substring(0, max_len - 1) + "...";
         }
-     
+   
         el.innerHTML = resultString;
       }, 
       componentUpdated: function(el) {
